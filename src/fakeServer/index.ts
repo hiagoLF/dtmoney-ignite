@@ -33,13 +33,20 @@ export function startFakeServer() {
     routes() {
       this.namespace = "api";
 
-      this.get("transactions", () => {
+      this.get("/transactions", () => {
         return this.schema.all("transaction");
       });
 
-      this.post("transactions", (schema, request) => {
+      this.post("/transactions", (schema, request) => {
         const data = JSON.parse(request.requestBody);
         return schema.create("transaction", { ...data, createdAt: new Date() });
+      });
+
+      this.delete("/transactions/:id", (schema, request) => {
+        const transactionId = request.params.id;
+        const transactionFound = schema.find("transaction", transactionId);
+        transactionFound?.destroy();
+        return transactionFound as any;
       });
     },
   });

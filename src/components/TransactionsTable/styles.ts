@@ -7,6 +7,10 @@ export const Container = styled.div`
     width: 100%;
     border-spacing: 0 0.5rem;
 
+    tr {
+      position: relative;
+    }
+
     th {
       color: var(--text-body);
       font-weight: 400;
@@ -30,7 +34,25 @@ export const Container = styled.div`
       }
 
       &.withdraw {
-        color: var(--red)
+        color: var(--red);
+      }
+    }
+
+    button {
+      position: absolute;
+      right: 0;
+      height: 100%;
+      background: none;
+      border: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0.5;
+      transition: opacity 0.3s;
+      padding-right: 0.5rem;
+
+      &:hover {
+        opacity: 0.8;
       }
     }
   }
