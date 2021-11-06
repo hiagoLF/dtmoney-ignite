@@ -1,50 +1,12 @@
-import { createServer, Model } from "miragejs";
 import React from "react";
 import ReactDOM from "react-dom";
 import { App } from "./App";
+import { startFakeServer } from "./fakeServer";
 
-createServer({
-  models: {
-    transaction: Model,
-  },
 
-  seeds(server) {
-    server.db.loadData({
-      // Presta atenção... transactions aqui tem s no final enquanto o nome do módulo não tem
-      transactions: [
-        {
-          id: 1,
-          title: "Freela de Desenvolvimento",
-          type: "deposit",
-          category: "Dev",
-          amount: 6000,
-          createdAt: new Date("2021-02-12 09:00:00"),
-        },
-        {
-          id: 2,
-          title: "Aluguel",
-          type: "withdraw",
-          category: "Casa",
-          amount: 500,
-          createdAt: new Date("2021-02-14 11:00:00"),
-        },
-      ],
-    });
-  },
-
-  routes() {
-    this.namespace = "api";
-
-    this.get("transactions", () => {
-      return this.schema.all("transaction");
-    });
-
-    this.post("transactions", (schema, request) => {
-      const data = JSON.parse(request.requestBody);
-      return schema.create("transaction", data);
-    });
-  },
-});
+if (process.env.REACT_APP_FAKE_SERVER === "true") {
+  startFakeServer();
+}
 
 ReactDOM.render(
   <React.StrictMode>
